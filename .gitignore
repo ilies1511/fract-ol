@@ -1,0 +1,7 @@
+*.pdf
+*.o
+*.a
+*.vscode
+MLX42
+*.o
+.gitmodules
