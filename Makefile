@@ -6,7 +6,7 @@
 #    By: iziane <iziane@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/27 21:12:03 by iziane            #+#    #+#              #
-#    Updated: 2024/05/30 23:27:31 by iziane           ###   ########.fr        #
+#    Updated: 2024/05/31 22:20:59 by iziane           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,18 +28,20 @@ CFLAGS		=	-Wall -Wextra -Werror -Wunreachable-code -Ofast -g
 SRC			=	src/main.c
 OBJ			=	$(SRC:%.c=%.o)
 
+INCL		= 	-I./MLX42/include/MLX42/ -I./libft/ -I./includes/
+
 all: MLX42
 	$(MAKE) $(NAME)
 
 $(NAME): $(LIBFT) $(OBJ)
-	$(CC) $(CFLAGS) $(OBJ) $(LIBFT) -o $(NAME) $(MLXFLAGS)
+	$(CC) $(CFLAGS) $(INCL) $(MLXFLAGS)  $(OBJ) $(LIBS)  $(LIBFT) -o $(NAME) $(MLX)
 
 MLX42:
 	@if [ ! -d "MLX42" ]; then git clone https://github.com/codam-coding-college/MLX42.git; fi
 	@cd MLX42 && cmake -B build && cmake --build build -j4
 
 %.o : %.c
-	$(CC) $(CFLAGS) $(HEADER) -c $< -o $@
+	$(CC) $(INCL) $(LIBS) $(CFLAGS) $(HEADER) -c $< -o $@
 
 $(LIBFT):
 	make -C $(LIBFT_PATH)
