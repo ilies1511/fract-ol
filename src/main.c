@@ -6,7 +6,7 @@
 /*   By: iziane <iziane@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 21:25:39 by iziane            #+#    #+#             */
-/*   Updated: 2024/05/31 22:19:46 by iziane           ###   ########.fr       */
+/*   Updated: 2024/06/02 00:59:58 by iziane           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,12 +49,12 @@ void	pixel_manager(int x, int y, t_params *fractol)
 	double	z_x_squared;
 	double	z_y_squared;
 
-	fractol->z->x = 0;
-	fractol->z->y = 0;
+	fractol->z->x = (fractol->x_max + fractol->x_min) / 2;
+	fractol->z->y = (fractol->y_max + fractol->y_min) / 2;;
 	fractol->c->x = scale_map(x, -2, 2, 0, WIDTH);
 	fractol->c->y = scale_map(y, 2, -2, 0, HEIGHT);
 	i = 0;
-	while (i < MAX_ITER)
+	while (i < fractol->max_iter)
 	{
 		z_x_squared = fractol->z->x * fractol->z->x;
 		z_y_squared = fractol->z->y * fractol->z->y;
@@ -71,32 +71,6 @@ void	pixel_manager(int x, int y, t_params *fractol)
 	}
 	mlx_put_pixel(fractol->img, x, y, BLACK);
 }
-
-// void	pixel_manager(int x, int y, t_params *fractol)
-// {
-// 	t_cmplx_nbr	z;
-// 	t_cmplx_nbr	c;
-// 	int			i;
-// 	int			color;
-
-// 	c.x = scale_map(x, -2, +2, 0, WIDTH);
-// 	c.y = scale_map(y, +2, -2, 0, HEIGHT);
-// 	i = 0;
-// 	while (i < MAX_ITER)
-// 	{
-// 		int s = (z.x * z.x) + (z.y * z.y);
-// 		if (s > fractol->escape_value)
-// 		{
-// 			color = scale_map (i, BLACK, WHITE, 0, MAX_ITER);
-// 			// printf("s: %d, %f\n", s, fractol->escape_value);
-// 			mlx_put_pixel(fractol->img, fractol->coordinates.x, fractol->coordinates.y, BLACK);
-// 			return ;
-// 		}
-// 		else
-// 			mlx_put_pixel(fractol->img, fractol->coordinates.x, fractol->coordinates.y, RED);
-// 		i++;
-// 	}
-// }
 
 void	render(t_params *fractol)
 {
@@ -115,22 +89,30 @@ void	render(t_params *fractol)
 			fractol->coordinates.x++;
 		}
 		fractol->coordinates.y++;
-
 	}
 }
 
-//TODO: muss man danach noch den fractol struct free ?
-int	fractol_init(t_params *fractol)
+// void	init_julia(t_params *fractol);
+
+void	init_mandelbrot(t_params *fractol)
 {
 	fractol->coordinates.x = 0;
 	fractol->coordinates.y = 0;
 	fractol->y_max = 2.0;
 	fractol->x_max = 2.0;
 	fractol->y_min = -2.0;
-	fractol->x_min = -2.5;
+	fractol->x_min = -2.0;
+}
+
+int	fractol_init(t_params *fractol)
+{
+	if (fractol->option == mandelbrot)
+		init_mandelbrot(fractol);
+	// if (fractol->option == 1)
+	// 	init_julia(fractol);
 	fractol->c = (t_cmplx_nbr *) malloc(sizeof(t_cmplx_nbr));
 	fractol->z = (t_cmplx_nbr *) malloc(sizeof(t_cmplx_nbr));
-	fractol->max_iter = 500;
+	fractol->max_iter = 2;
 	fractol->iter = 0;
 	fractol->escape_value = 4.0;
 	fractol->mlx = mlx_init(WIDTH, HEIGHT, "izi-fractol", false);
@@ -144,42 +126,6 @@ int	fractol_init(t_params *fractol)
 	}
 }
 
-void	ft_error(t_params *fractol)
-{
-	ft_putendl_fd("Error, wrong input !", 2);
-	ft_putendl_fd("*************************************************", 2);
-	ft_putendl_fd("Guide to usage:", 2);
-	ft_putendl_fd("./fractol [option1] | [option2] | [option3]", 2);
-	ft_putendl_fd("option1: ./fractol mandelbrot", 2);
-	ft_putendl_fd("option2: ./fractol julia [parameter] [parameter]", 2);
-	ft_putendl_fd("option3: ./fractol burningship", 2);
-	free(fractol);
-	exit(EXIT_FAILURE);
-}
-
-void	parser(int argc, char **argv, t_params *fractol)
-{
-	if (argc < 2 || (!ft_strncmp(argv[1], "julia", 6) && argc != 4))
-		ft_error(fractol);
-	if (argc > 4)
-		ft_error(fractol);
-	if (ft_strncmp(argv[1], "julia", 6)
-		&& ft_strncmp(argv[1], "mandelbrot", 11))
-		ft_error(fractol);
-	if (!ft_strncmp("mandelbrot", argv[1], 11) && argc == 2)
-	{
-		fractol->option = mandelbrot;
-		return ;
-	}
-	if (!ft_strncmp("julia", argv[1], 11) && argc == 4)
-	{
-		fractol->option = julia;
-		return ;
-	}
-	else
-		ft_error(fractol);
-}
-
 int	main(int argc, char **argv)
 {
 	t_params	*fractol;
@@ -188,9 +134,11 @@ int	main(int argc, char **argv)
 	parser(argc, argv, fractol);
 	if (fractol_init(fractol))
 		render(fractol);
-
 	// mlx_loop_hook(fractol->mlx, ft_hook, mlx);
+	// mlx_image_to_window(fractol->mlx, fractol->img, 0, 0);
+	mlx_key_hook(fractol->mlx, &my_keyhook, (void *)fractol);
 	mlx_loop(fractol->mlx);
+	mlx_delete_image(fractol->mlx, fractol->img);
 	mlx_terminate(fractol->mlx);
 	return (0);
 }

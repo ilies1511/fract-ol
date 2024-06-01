@@ -6,7 +6,7 @@
 /*   By: iziane <iziane@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 20:28:33 by iziane            #+#    #+#             */
-/*   Updated: 2024/05/31 21:45:17 by iziane           ###   ########.fr       */
+/*   Updated: 2024/06/02 00:44:57 by iziane           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 # include <fcntl.h> // fuer open
 # include <stdlib.h>
 # define WIDTH 800
-# define HEIGHT 600
+# define HEIGHT 800
 # define MAX_ITER 200
 # define ZOOM 3
 # define BLACK 0x000000
@@ -82,10 +82,15 @@ typedef struct s_params
 }					t_params;
 
 ////////////////////////////////// Functions //////////////////////////////
-//Init
-// void	frinitialisation(t_params *fractol);
-// void	fractol_maker(t_params *fractol);
-
+//Parser
+void	parser(int argc, char **argv, t_params *fractol);
+void	ft_error(t_params *fractol);
+//Hooks
+void	my_keyhook(mlx_key_data_t keydata, void *param);
+//Render
+void	render(t_params *fractol);
+//Error
+void	ft_error(t_params *fractol);
 #endif
 
 // typedef struct s_params
