@@ -6,7 +6,7 @@
 #    By: iziane <iziane@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/27 21:12:03 by iziane            #+#    #+#              #
-#    Updated: 2024/06/02 00:28:01 by iziane           ###   ########.fr        #
+#    Updated: 2024/06/02 01:53:29 by iziane           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,7 @@ LIBFT			=	$(LIBFT_PATH)/libft.a
 CC			=	cc
 CFLAGS		=	-Wall -Wextra -Werror -Wunreachable-code -Ofast -g
 
-SRC			=	$(addprefix src/, main.c input_check.c hooks.c error_case.c)
+SRC			=	$(addprefix src/, main.c input_check.c hooks.c error_case.c math.c pixel.c)
 OBJ			=	$(SRC:%.c=%.o)
 
 INCL		=	-I./MLX42/include/MLX42/ -I./libft/ -I./includes/

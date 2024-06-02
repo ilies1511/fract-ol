@@ -6,7 +6,7 @@
 /*   By: iziane <iziane@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 21:25:39 by iziane            #+#    #+#             */
-/*   Updated: 2024/06/02 00:59:58 by iziane           ###   ########.fr       */
+/*   Updated: 2024/06/02 01:52:42 by iziane           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,59 +18,36 @@ int	ft_color(t_params *fractol)
 	return (0);
 }
 
-t_cmplx_nbr	square_complex(t_cmplx_nbr z)
-{
-	t_cmplx_nbr	res;
+// void	pixel_manager(int x, int y, t_params *fractol)
+// {
+// 	int		i;
+// 	int		color;
+// 	double	temp;
+// 	double	z_x_squared;
+// 	double	z_y_squared;
 
-	res.x = (z.x * z.x) - (z.y * z.y);
-	res.y = 2 * z.x * z.y;
-	return (res);
-}
-
-t_cmplx_nbr	sum_complex(t_cmplx_nbr z1, t_cmplx_nbr z2)
-{
-	t_cmplx_nbr	res;
-
-	res.x = z1.x + z2.x;
-	res.y = z1.y + z2.y;
-	return (res);
-}
-
-double	scale_map(double unscaled_num, double new_min, double new_max, double old_min, double old_max)
-{
-	return ((new_max - new_min) * (unscaled_num - old_min) / (old_max - old_min) + new_min);
-}
-
-void	pixel_manager(int x, int y, t_params *fractol)
-{
-	int		i;
-	int		color;
-	double	temp;
-	double	z_x_squared;
-	double	z_y_squared;
-
-	fractol->z->x = (fractol->x_max + fractol->x_min) / 2;
-	fractol->z->y = (fractol->y_max + fractol->y_min) / 2;;
-	fractol->c->x = scale_map(x, -2, 2, 0, WIDTH);
-	fractol->c->y = scale_map(y, 2, -2, 0, HEIGHT);
-	i = 0;
-	while (i < fractol->max_iter)
-	{
-		z_x_squared = fractol->z->x * fractol->z->x;
-		z_y_squared = fractol->z->y * fractol->z->y;
-		if (z_x_squared + z_y_squared > fractol->escape_value)
-		{
-			color = scale_map(i, BLACK, WHITE, 0, MAX_ITER);
-			mlx_put_pixel(fractol->img, x, y, color);
-			return ;
-		}
-		temp = z_x_squared - z_y_squared + fractol->c->x;
-		fractol->z->y = 2 * fractol->z->x * fractol->z->y + fractol->c->y;
-		fractol->z->x = temp;
-		i++;
-	}
-	mlx_put_pixel(fractol->img, x, y, BLACK);
-}
+// 	fractol->z->x = 0; //(fractol->x_max + fractol->x_min) / 2;
+// 	fractol->z->y = 0; //(fractol->y_max + fractol->y_min) / 2;;
+// 	fractol->c->x = scale_map(x, fractol->x_min, fractol->x_max, 0, WIDTH);
+// 	fractol->c->y = scale_map(y, fractol->y_max, fractol->y_min, 0, HEIGHT);
+// 	i = 0;
+// 	while (i < fractol->max_iter)
+// 	{
+// 		z_x_squared = fractol->z->x * fractol->z->x;
+// 		z_y_squared = fractol->z->y * fractol->z->y;
+// 		if (z_x_squared + z_y_squared > fractol->escape_value)
+// 		{
+// 			color = scale_map(i, BLACK, WHITE, 0, MAX_ITER);
+// 			mlx_put_pixel(fractol->img, x, y, color);
+// 			return ;
+// 		}
+// 		temp = z_x_squared - z_y_squared + fractol->c->x;
+// 		fractol->z->y = 2 * fractol->z->x * fractol->z->y + fractol->c->y;
+// 		fractol->z->x = temp;
+// 		i++;
+// 	}
+// 	mlx_put_pixel(fractol->img, x, y, BLACK);
+// }
 
 void	render(t_params *fractol)
 {
@@ -82,9 +59,8 @@ void	render(t_params *fractol)
 	while (fractol->coordinates.y < HEIGHT)
 	{
 		fractol->coordinates.x = 0;
-		while(fractol->coordinates.x < WIDTH)
+		while (fractol->coordinates.x < WIDTH)
 		{
-			//Je nachdem ob der Punkt im Set ist oder nicht bekommt er in  Pixel Manager eine bestimmte Farbe
 			pixel_manager(fractol->coordinates.x, fractol->coordinates.y, fractol);
 			fractol->coordinates.x++;
 		}
@@ -92,7 +68,15 @@ void	render(t_params *fractol)
 	}
 }
 
-// void	init_julia(t_params *fractol);
+void	init_julia(t_params *fractol)
+{
+	fractol->coordinates.x = 0;
+	fractol->coordinates.y = 0;
+	fractol->y_max = 2.0;
+	fractol->x_max = 2.0;
+	fractol->y_min = -2.0; //TODO: Change values for Julia
+	fractol->x_min = -2.0; //
+}
 
 void	init_mandelbrot(t_params *fractol)
 {
@@ -108,11 +92,11 @@ int	fractol_init(t_params *fractol)
 {
 	if (fractol->option == mandelbrot)
 		init_mandelbrot(fractol);
-	// if (fractol->option == 1)
-	// 	init_julia(fractol);
+	if (fractol->option == julia)
+		init_julia(fractol);
 	fractol->c = (t_cmplx_nbr *) malloc(sizeof(t_cmplx_nbr));
 	fractol->z = (t_cmplx_nbr *) malloc(sizeof(t_cmplx_nbr));
-	fractol->max_iter = 2;
+	fractol->max_iter = 40;
 	fractol->iter = 0;
 	fractol->escape_value = 4.0;
 	fractol->mlx = mlx_init(WIDTH, HEIGHT, "izi-fractol", false);
@@ -122,7 +106,7 @@ int	fractol_init(t_params *fractol)
 	else
 	{
 		free(fractol);
-		return(exit(EXIT_FAILURE), 0);
+		return (exit(EXIT_FAILURE), 0);
 	}
 }
 

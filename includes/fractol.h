@@ -6,7 +6,7 @@
 /*   By: iziane <iziane@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 20:28:33 by iziane            #+#    #+#             */
-/*   Updated: 2024/06/02 00:44:57 by iziane           ###   ########.fr       */
+/*   Updated: 2024/06/02 01:53:13 by iziane           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,13 @@ void	my_keyhook(mlx_key_data_t keydata, void *param);
 void	render(t_params *fractol);
 //Error
 void	ft_error(t_params *fractol);
+//Math
+t_cmplx_nbr	square_complex(t_cmplx_nbr z);
+t_cmplx_nbr	sum_complex(t_cmplx_nbr z1, t_cmplx_nbr z2);
+double	scale_map(double unscaled_num, double new_min, double new_max, double old_min, double old_max);
+//Pixel
+void	pixel_manager(int x, int y, t_params *fractol);
+
 #endif
 
 // typedef struct s_params
