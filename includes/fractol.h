@@ -6,7 +6,7 @@
 /*   By: iziane <iziane@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 20:28:33 by iziane            #+#    #+#             */
-/*   Updated: 2024/06/03 02:06:56 by iziane           ###   ########.fr       */
+/*   Updated: 2024/06/03 16:20:48 by iziane           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ typedef struct s_params
 	double			y_min;
 	t_cmplx_nbr		*z;
 	t_cmplx_nbr		*c;
+	t_cmplx_nbr		*julia;
 	int				iter;
 	int				r;
 	int				g;
@@ -98,7 +99,9 @@ t_cmplx_nbr	square_complex(t_cmplx_nbr z);
 t_cmplx_nbr	sum_complex(t_cmplx_nbr z1, t_cmplx_nbr z2);
 double	scale_map(double unscaled_num, double new_min, double new_max, double old_min, double old_max);
 //Pixel
-void	pixel_manager(int x, int y, t_params *fractol);
+void	pixel_manager_mandel(int x, int y, t_params *fractol);
+void	pixel_manager_julia(int x, int y, t_params *fractol);
+
 
 #endif
 

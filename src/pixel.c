@@ -6,7 +6,7 @@
 /*   By: iziane <iziane@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 01:52:30 by iziane            #+#    #+#             */
-/*   Updated: 2024/06/03 03:07:09 by iziane           ###   ########.fr       */
+/*   Updated: 2024/06/03 23:25:25 by iziane           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,55 @@
 // 	return (iter);
 // }
 
-void	pixel_manager(int x, int y, t_params *fractol)
+// static void	type_converter(t_cmplx_nbr *z, t_cmplx_nbr *c,
+		// t_params *fractal)
+// {
+// 	if (fractal->option == julia)
+// 	{
+// 		c->x = fractal->julia->x;
+// 		c->y = fractal->julia->y;
+// 	}
+// 	else
+// 	{
+// 		c->x = z->x;
+// 		c->y = z->y;
+// 	}
+// }
+
+void	pixel_manager_julia(int x, int y, t_params *fractol)
+{
+	int		i;
+	int		color;
+	double	temp;
+	double	z_x_squared;
+	double	z_y_squared;
+
+	fractol->c->x = fractol->julia->x;
+	fractol->c->y = fractol->julia->y;
+	fractol->z->x = scale_map(x, fractol->x_min, fractol->x_max, 0, WIDTH);
+	fractol->z->y = scale_map(y, fractol->y_min, fractol->y_max, 0, HEIGHT);
+	i = 0;
+	temp = 0;
+	while (i < MAX_ITER)
+	{
+		z_x_squared = fractol->z->x * fractol->z->x;
+		z_y_squared = fractol->z->y * fractol->z->y;
+		if (z_x_squared + z_y_squared > fractol->escape_value)
+		{
+			color = scale_map(i, BLACK, WHITE, 0, fractol->max_iter);
+			mlx_put_pixel(fractol->img, x, y, color);
+			return ;
+		}
+		temp = z_x_squared - z_y_squared + fractol->julia->x;
+		fractol->z->y = 2 * fractol->z->x * fractol->z->y + fractol->julia->y;
+		fractol->z->x = temp;
+		i++;
+	}
+	mlx_put_pixel(fractol->img, x, y, BLACK);
+}
+
+//Funktioniert fuer Mandelbrot Set
+void	pixel_manager_mandel(int x, int y, t_params *fractol)
 {
 	int		i;
 	int		color;
@@ -72,28 +120,25 @@ void	pixel_manager(int x, int y, t_params *fractol)
 	fractol->z->y = 0;
 	fractol->c->x = scale_map(x, fractol->x_min, fractol->x_max, 0, WIDTH);
 	fractol->c->y = scale_map(y, fractol->y_max, fractol->y_min, 0, HEIGHT);
+	// type_converter(fractol->z, fractol->c, fractol);
 	i = 0;
 	while (i < fractol->max_iter)
 	{
-		if (fractol->option == mandelbrot)
+		z_x_squared = fractol->z->x * fractol->z->x;
+		z_y_squared = fractol->z->y * fractol->z->y;
+		if (z_x_squared + z_y_squared > fractol->escape_value)
 		{
-			z_x_squared = fractol->z->x * fractol->z->x;
-			z_y_squared = fractol->z->y * fractol->z->y;
-			if (z_x_squared + z_y_squared > fractol->escape_value)
-			{
-				color = scale_map(i, BLACK, WHITE, 0, fractol->max_iter);
-				mlx_put_pixel(fractol->img, x, y, color);
-				return ;
-			}
-			temp = z_x_squared - z_y_squared + fractol->c->x;
-			fractol->z->y = 2 * fractol->z->x * fractol->z->y + fractol->c->y;
-			fractol->z->x = temp;
+			color = scale_map(i, BLACK, WHITE, 0, fractol->max_iter);
+			mlx_put_pixel(fractol->img, x, y, color);
+			return ;
 		}
+		temp = z_x_squared - z_y_squared + fractol->c->x;
+		fractol->z->y = 2 * fractol->z->x * fractol->z->y + fractol->c->y;
+		fractol->z->x = temp;
 		i++;
 	}
 	mlx_put_pixel(fractol->img, x, y, BLACK);
 }
-
 
 // void	pixel_manager(int x, int y, t_params *fractol)
 // {

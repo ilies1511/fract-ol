@@ -6,7 +6,7 @@
 /*   By: iziane <iziane@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 21:25:39 by iziane            #+#    #+#             */
-/*   Updated: 2024/06/03 02:18:03 by iziane           ###   ########.fr       */
+/*   Updated: 2024/06/03 23:25:43 by iziane           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,13 @@ void	render(t_params *fractol)
 	while (fractol->coordinates.y < HEIGHT)
 	{
 		fractol->coordinates.x = 0;
+		// printf("--------------new iter of x---------------\n");
 		while (fractol->coordinates.x < WIDTH)
 		{
-			pixel_manager(fractol->coordinates.x,
-				fractol->coordinates.y, fractol);
+			if (fractol->option == mandelbrot)
+				pixel_manager_mandel(fractol->coordinates.x, fractol->coordinates.y, fractol);
+			if (fractol->option == julia)
+				pixel_manager_julia(fractol->coordinates.x, fractol->coordinates.y, fractol);
 			fractol->coordinates.x++;
 		}
 		fractol->coordinates.y++;
@@ -42,13 +45,13 @@ void	init_julia(t_params *fractol, char **argv)
 {
 	fractol->coordinates.x = 0;
 	fractol->coordinates.y = 0;
-	fractol->x_max = 1.5;
-	fractol->y_max = 1.5;
-	fractol->x_min = -1.5;
-	fractol->y_min = -1.5;
+	fractol->x_max = 2;
+	fractol->y_max = 2;
+	fractol->x_min = -2;
+	fractol->y_min = -2;
 	(void)argv;
-	fractol->c->x = -0.8;
-	fractol->c->y = 0.156;
+	fractol->julia->x = -0.8;
+	fractol->julia->y = 0.156;
 }
 
 void	init_mandelbrot(t_params *fractol)
@@ -67,6 +70,7 @@ int	fractol_init(t_params *fractol, char **argv)
 		init_mandelbrot(fractol);
 	fractol->c = (t_cmplx_nbr *) malloc(sizeof(t_cmplx_nbr));
 	fractol->z = (t_cmplx_nbr *) malloc(sizeof(t_cmplx_nbr));
+	fractol->julia = (t_cmplx_nbr *) malloc(sizeof(t_cmplx_nbr));
 	if (fractol->option == julia)
 		init_julia(fractol, argv);
 	fractol->max_iter = 200;
