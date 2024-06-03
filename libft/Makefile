@@ -47,6 +47,7 @@ SRCS += ft_strmapi.c
 SRCS += ft_striteri.c
 SRCS += ft_itoa.c
 SRCS += ft_free_2d.c
+SRCS += atod.c
 
 BONUS_SRCS += ft_lstnew_bonus.c
 BONUS_SRCS += ft_lstadd_front_bonus.c

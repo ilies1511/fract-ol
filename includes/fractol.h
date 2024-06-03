@@ -6,7 +6,7 @@
 /*   By: iziane <iziane@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 20:28:33 by iziane            #+#    #+#             */
-/*   Updated: 2024/06/02 01:53:13 by iziane           ###   ########.fr       */
+/*   Updated: 2024/06/03 02:06:56 by iziane           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ typedef struct s_params
 	int				r;
 	int				g;
 	int				b;
-	double			escape_value; // Hypothenuse
+	double			escape_value;
 	int				color_scheme;
 	t_point			coordinates;
 	t_which_fractal	option;
@@ -85,8 +85,10 @@ typedef struct s_params
 //Parser
 void	parser(int argc, char **argv, t_params *fractol);
 void	ft_error(t_params *fractol);
+double	atod(char *str);
 //Hooks
 void	my_keyhook(mlx_key_data_t keydata, void *param);
+void	my_scrollhook(double xdelta, double ydelta, void *param);
 //Render
 void	render(t_params *fractol);
 //Error

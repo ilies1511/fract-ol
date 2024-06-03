@@ -6,11 +6,36 @@
 /*   By: iziane <iziane@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 00:11:08 by iziane            #+#    #+#             */
-/*   Updated: 2024/06/02 02:02:01 by iziane           ###   ########.fr       */
+/*   Updated: 2024/06/03 01:29:21 by iziane           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
+
+void	my_scrollhook(double xdelta, double ydelta, void *param)
+{
+	t_params	*fractol;
+	mlx_t		*mlx;
+
+	fractol = (t_params *)param;
+	mlx = (mlx_t *)param;
+	xdelta = 0;
+	if (ydelta > 0)
+	{
+		fractol->x_min += (fractol->x_max - fractol->x_min) * fractol->zoom;
+		fractol->x_max -= (fractol->x_max - fractol->x_min) * fractol->zoom;
+		fractol->y_min += (fractol->y_max - fractol->y_min) * fractol->zoom;
+		fractol->y_max -= (fractol->y_max - fractol->y_min) * fractol->zoom;
+	}
+	else
+	{
+		fractol->x_min -= (fractol->x_max - fractol->x_min) * fractol->zoom;
+		fractol->x_max += (fractol->x_max - fractol->x_min) * fractol->zoom;
+		fractol->y_min -= (fractol->y_max - fractol->y_min) * fractol->zoom;
+		fractol->y_max += (fractol->y_max - fractol->y_min) * fractol->zoom;
+	}
+	render(fractol);
+}
 
 static void	move_vertical(mlx_key_data_t keydata, t_params *fractol)
 {
@@ -65,6 +90,7 @@ void	my_keyhook(mlx_key_data_t keydata, void *param)
 		mlx_delete_image(fractol->mlx, fractol->img);
 		mlx_terminate(fractol->mlx);
 		free(fractol);
+		exit(MLX_SUCCESS);
 	}
 	render(fractol);
 }
