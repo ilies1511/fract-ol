@@ -6,7 +6,7 @@
 /*   By: iziane <iziane@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 20:28:33 by iziane            #+#    #+#             */
-/*   Updated: 2024/06/06 21:12:35 by iziane           ###   ########.fr       */
+/*   Updated: 2024/06/06 22:22:03 by iziane           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,7 @@ void		my_scrollhook(double xdelta, double ydelta, void *param);
 void		render(t_params *fractol);
 //Error
 void		ft_error(t_params *fractol);
+void		ft_free_all(t_params *fractol, int flag);
 //Math
 t_cmplx_nbr	square_complex(t_cmplx_nbr z);
 t_cmplx_nbr	sum_complex(t_cmplx_nbr z1, t_cmplx_nbr z2);
