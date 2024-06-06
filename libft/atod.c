@@ -6,7 +6,7 @@
 /*   By: iziane <iziane@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 01:36:44 by iziane            #+#    #+#             */
-/*   Updated: 2024/06/06 21:26:37 by iziane           ###   ########.fr       */
+/*   Updated: 2024/06/06 22:35:06 by iziane           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,11 @@ double	atod(char *str)
 	while (str && ((str[i] >= 9 && str[i] <= 13) || str[i] == 32))
 		i++;
 	while (str && (str[i] == '+' || str[i] == '-'))
+	{
 		if (str[i] == '-')
 			sign = -sign;
+		i++;
+	}
 	while (str && str[i] && str[i] != '.')
 		pre_dot = (pre_dot * 10) + (str[i++] - 48);
 	if ('.' == str[i++])
