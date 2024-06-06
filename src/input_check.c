@@ -6,7 +6,7 @@
 /*   By: iziane <iziane@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 23:54:27 by iziane            #+#    #+#             */
-/*   Updated: 2024/06/03 01:55:34 by iziane           ###   ########.fr       */
+/*   Updated: 2024/06/06 22:44:23 by iziane           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@
 
 void	parser(int argc, char **argv, t_params *fractol)
 {
-	if (argc < 2 )//|| (!ft_strncmp(argv[1], "julia", 6) && argc != 4))
+	if (argc < 2)
 		ft_error(fractol);
 	if (argc > 4)
 		ft_error(fractol);
@@ -55,7 +55,7 @@ void	parser(int argc, char **argv, t_params *fractol)
 		fractol->option = mandelbrot;
 		return ;
 	}
-	if (!ft_strncmp("julia", argv[1], 6) && argc >= 2)
+	if (!ft_strncmp("julia", argv[1], 6) && argc >= 2 && argc <= 4)
 	{
 		fractol->option = julia;
 		return ;
