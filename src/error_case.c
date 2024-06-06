@@ -6,7 +6,7 @@
 /*   By: iziane <iziane@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 00:27:15 by iziane            #+#    #+#             */
-/*   Updated: 2024/06/06 22:42:44 by iziane           ###   ########.fr       */
+/*   Updated: 2024/06/07 00:43:38 by iziane           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,3 +36,4 @@ void	ft_error(t_params *fractol)
 	free(fractol);
 	exit(EXIT_FAILURE);
 }
+	// system("leaks fractol");

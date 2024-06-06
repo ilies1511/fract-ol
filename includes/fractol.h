@@ -6,7 +6,7 @@
 /*   By: iziane <iziane@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 20:28:33 by iziane            #+#    #+#             */
-/*   Updated: 2024/06/06 22:22:03 by iziane           ###   ########.fr       */
+/*   Updated: 2024/06/07 00:38:45 by iziane           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,10 @@ typedef struct s_params
 void		parser(int argc, char **argv, t_params *fractol);
 void		ft_error(t_params *fractol);
 double		atod(char *str);
+//Init
+int			fractol_init(t_params *fractol, char **argv, int argc);
+void		init_mandelbrot(t_params *fractol);
+void		init_julia(t_params *fractol, char **argv, int argc);
 //Hooks
 void		my_keyhook(mlx_key_data_t keydata, void *param);
 void		my_scrollhook(double xdelta, double ydelta, void *param);
@@ -105,7 +109,6 @@ t_cmplx_nbr	square_complex(t_cmplx_nbr z);
 t_cmplx_nbr	sum_complex(t_cmplx_nbr z1, t_cmplx_nbr z2);
 double		scale_map(double unscaled_num, t_params *f,
 				double old_min, double old_max);
-
 //Pixel
 void		pixel_manager(int x, int y, t_params *fractol);
 void		type_converter(t_params *fractol, int x, int y);
