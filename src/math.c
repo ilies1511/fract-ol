@@ -6,7 +6,7 @@
 /*   By: iziane <iziane@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 01:28:15 by iziane            #+#    #+#             */
-/*   Updated: 2024/06/02 01:29:54 by iziane           ###   ########.fr       */
+/*   Updated: 2024/06/06 20:53:36 by iziane           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,19 @@ t_cmplx_nbr	sum_complex(t_cmplx_nbr z1, t_cmplx_nbr z2)
 	return (res);
 }
 
-double	scale_map(double unscaled_num, double new_min, double new_max, double old_min, double old_max)
+double	scale_map(double to_scale, t_params *f, double old_min, double old_max)
 {
-	return ((new_max - new_min) * (unscaled_num - old_min) / (old_max - old_min) + new_min);
+	return ((f->x_max - f->x_min) * (to_scale - old_min)
+		/ (old_max - old_min) + f->x_min);
+}
+
+// double	scale_map(double unscaled_num, double new_min, double new_max, double old_min, double old_max)
+// {
+// 	return ((new_max - new_min) * (unscaled_num - old_min) / (old_max - old_min) + new_min);
+// }
+
+double	set_color(double to_scale, double old_min, double old_max)
+{
+	return ((BLACK - WHITE) * (to_scale - old_min)
+		/ (old_max - old_min) + BLACK);
 }

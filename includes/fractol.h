@@ -6,7 +6,7 @@
 /*   By: iziane <iziane@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 20:28:33 by iziane            #+#    #+#             */
-/*   Updated: 2024/06/03 16:20:48 by iziane           ###   ########.fr       */
+/*   Updated: 2024/06/06 21:12:35 by iziane           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 # include "libft.h"
 # include "MLX42.h"
 # include <unistd.h>
-// # include "/Users/iziane/42/repo_fractol/fract-ol/MLX42/include/MLX42/MLX42.h"
 # include <stdio.h>
 # include <stdbool.h>
 # include <math.h> // Mathe Lib
@@ -37,6 +36,12 @@
 // 	int32_t			os_key;
 // 	modifier_key_t	modifier;
 // }					mlx_key_data_t;
+
+typedef struct s_color
+{
+	int	black;
+	int	white;
+}		t_color;
 
 typedef struct s_cmplx_nbr
 {
@@ -84,36 +89,31 @@ typedef struct s_params
 
 ////////////////////////////////// Functions //////////////////////////////
 //Parser
-void	parser(int argc, char **argv, t_params *fractol);
-void	ft_error(t_params *fractol);
-double	atod(char *str);
+void		parser(int argc, char **argv, t_params *fractol);
+void		ft_error(t_params *fractol);
+double		atod(char *str);
 //Hooks
-void	my_keyhook(mlx_key_data_t keydata, void *param);
-void	my_scrollhook(double xdelta, double ydelta, void *param);
+void		my_keyhook(mlx_key_data_t keydata, void *param);
+void		my_scrollhook(double xdelta, double ydelta, void *param);
 //Render
-void	render(t_params *fractol);
+void		render(t_params *fractol);
 //Error
-void	ft_error(t_params *fractol);
+void		ft_error(t_params *fractol);
 //Math
 t_cmplx_nbr	square_complex(t_cmplx_nbr z);
 t_cmplx_nbr	sum_complex(t_cmplx_nbr z1, t_cmplx_nbr z2);
-double	scale_map(double unscaled_num, double new_min, double new_max, double old_min, double old_max);
-//Pixel
-void	pixel_manager_mandel(int x, int y, t_params *fractol);
-void	pixel_manager_julia(int x, int y, t_params *fractol);
+double		scale_map(double unscaled_num, t_params *f,
+				double old_min, double old_max);
 
+//Pixel
+void		pixel_manager(int x, int y, t_params *fractol);
+void		type_converter(t_params *fractol, int x, int y);
+void		complex_mandel(t_params *fractol, int x, int y);
+void		complex_julia(t_params *fractol, int x, int y);
+//Color
+double		set_color(double to_scale, double old_min, double old_max);
 
 #endif
 
-// typedef struct s_params
-// {
-// 	t_which_fractal	option;
-// 	t_mlx			*window; //ptr to window struct
-// 	//Image
-// 	t_mlx_image		*image; //ptr to window struct
-// 	int				bpp; //Bites per Pixel
-// 	//Init Fractol
-// 	int				max_iter;
-// 	double			zoom;
-// 	t_point			coordinates;
-// }
+// double		scale_map(double unscaled_num, double
+//	new_min, double new_max, double old_min, double old_max);

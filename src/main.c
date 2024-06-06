@@ -6,17 +6,11 @@
 /*   By: iziane <iziane@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 21:25:39 by iziane            #+#    #+#             */
-/*   Updated: 2024/06/03 23:25:43 by iziane           ###   ########.fr       */
+/*   Updated: 2024/06/06 20:57:40 by iziane           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
-
-// int	ft_color(t_params *fractol)
-// {
-// 	(void)fractol;
-// 	return (0);
-// }
 
 void	render(t_params *fractol)
 {
@@ -28,13 +22,10 @@ void	render(t_params *fractol)
 	while (fractol->coordinates.y < HEIGHT)
 	{
 		fractol->coordinates.x = 0;
-		// printf("--------------new iter of x---------------\n");
 		while (fractol->coordinates.x < WIDTH)
 		{
-			if (fractol->option == mandelbrot)
-				pixel_manager_mandel(fractol->coordinates.x, fractol->coordinates.y, fractol);
-			if (fractol->option == julia)
-				pixel_manager_julia(fractol->coordinates.x, fractol->coordinates.y, fractol);
+			pixel_manager(fractol->coordinates.x,
+				fractol->coordinates.y, fractol);
 			fractol->coordinates.x++;
 		}
 		fractol->coordinates.y++;
@@ -97,15 +88,33 @@ int	main(int argc, char **argv)
 	if (fractol_init(fractol, argv))
 		render(fractol);
 	mlx_scroll_hook(fractol->mlx, &my_scrollhook, (void *)fractol);
-	// mlx_image_to_window(fractol->mlx, fractol->img, 0, 0);
 	mlx_key_hook(fractol->mlx, &my_keyhook, (void *)fractol);
-	// mlx_loop_hook(fractol->mlx, &my_keyhook, (void *)fractol);
-	// mlx_loop_hook(fractol->mlx, my_scrollhook(0.0, 0.0, fractol), (void *)fractol);
 	mlx_loop(fractol->mlx);
 	mlx_delete_image(fractol->mlx, fractol->img);
 	mlx_terminate(fractol->mlx);
 	return (0);
 }
+
+//Stand: 06.06.2024 20:57
+// int	main(int argc, char **argv)
+// {
+// 	t_params	*fractol;
+
+// 	fractol = (t_params *)malloc(sizeof(t_params));
+// 	parser(argc, argv, fractol);
+// 	if (fractol_init(fractol, argv))
+// 		render(fractol);
+// 	mlx_scroll_hook(fractol->mlx, &my_scrollhook, (void *)fractol);
+// 	// mlx_image_to_window(fractol->mlx, fractol->img, 0, 0);
+// 	mlx_key_hook(fractol->mlx, &my_keyhook, (void *)fractol);
+// 	// mlx_loop_hook(fractol->mlx, &my_keyhook, (void *)fractol);
+// 	// mlx_loop_hook(fractol->mlx, my_scrollhook(0.0, 0.0, fractol), (void *)fractol);
+// 	mlx_loop(fractol->mlx);
+// 	mlx_delete_image(fractol->mlx, fractol->img);
+// 	mlx_terminate(fractol->mlx);
+// 	return (0);
+// }
+
 
 // void	pixel_manager(int x, int y, t_params *fractol)
 // {
