@@ -6,7 +6,7 @@
 /*   By: iziane <iziane@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 00:11:08 by iziane            #+#    #+#             */
-/*   Updated: 2024/06/06 21:03:59 by iziane           ###   ########.fr       */
+/*   Updated: 2024/06/06 22:56:09 by iziane           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static void	move_vertical(mlx_key_data_t keydata, t_params *fractol)
 		fractol->y_min -= dif * 0.05;
 		fractol->y_max -= dif * 0.05;
 	}
-	else if (keydata.key == MLX_KEY_S && keydata.action == MLX_RELEASE)
+	if (keydata.key == MLX_KEY_S && keydata.action == MLX_RELEASE)
 	{
 		dif = (fractol->y_max - fractol->y_min);
 		fractol->y_min += dif * 0.05;
@@ -65,7 +65,7 @@ static void	move_horizontal(mlx_key_data_t keydata, t_params *fractol)
 		fractol->x_min += dif * 0.05;
 		fractol->x_max += dif * 0.05;
 	}
-	else if (keydata.key == MLX_KEY_D && keydata.action == MLX_RELEASE)
+	if (keydata.key == MLX_KEY_D && keydata.action == MLX_RELEASE)
 	{
 		dif = (fractol->x_max - fractol->x_min);
 		fractol->x_min -= dif * 0.05;
@@ -89,7 +89,7 @@ void	my_keyhook(mlx_key_data_t keydata, void *param)
 	{
 		mlx_delete_image(fractol->mlx, fractol->img);
 		mlx_terminate(fractol->mlx);
-		free(fractol);
+		ft_free_all(fractol, 7);
 		exit(MLX_SUCCESS);
 	}
 	render(fractol);

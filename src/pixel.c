@@ -6,12 +6,47 @@
 /*   By: iziane <iziane@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 01:52:30 by iziane            #+#    #+#             */
-/*   Updated: 2024/06/06 21:02:09 by iziane           ###   ########.fr       */
+/*   Updated: 2024/06/06 23:00:37 by iziane           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
+void	type_converter(t_params *fractol, int x, int y)
+{
+	if (fractol->option == mandelbrot)
+		complex_mandel(fractol, x, y);
+	else if (fractol->option == julia)
+		complex_julia(fractol, x, y);
+}
+
+void	pixel_manager(int x, int y, t_params *fractol)
+{
+	int		i;
+	int		color;
+	double	temp;
+	double	z_x_squared;
+	double	z_y_squared;
+
+	type_converter(fractol, x, y);
+	i = 0;
+	while (i < fractol->max_iter)
+	{
+		z_x_squared = fractol->z->x * fractol->z->x;
+		z_y_squared = fractol->z->y * fractol->z->y;
+		if (z_x_squared + z_y_squared > fractol->escape_value)
+		{
+			color = set_color(i, 0, fractol->max_iter);
+			mlx_put_pixel(fractol->img, x, y, color);
+			return ;
+		}
+		temp = z_x_squared - z_y_squared + fractol->c->x;
+		fractol->z->y = 2 * fractol->z->x * fractol->z->y + fractol->c->y;
+		fractol->z->x = temp;
+		i++;
+	}
+	mlx_put_pixel(fractol->img, x, y, BLACK);
+}
 // void	draw_mandelbrot(t_params *fractol, int x, int y, int i)
 // {
 // 	double	z_x_squared;
@@ -73,7 +108,6 @@
 // 	}
 // }
 
-
 //Voll funktionsfaehig, aber nicht Clean Code
 // void	pixel_manager_julia(int x, int y, t_params *fractol)
 // {
@@ -120,42 +154,6 @@
 // 	fractol->c->x = scale_map(x, fractol->x_min, fractol->x_max, 0, WIDTH);
 // 	fractol->c->y = scale_map(y, fractol->y_max, fractol->y_min, 0, HEIGHT);
 // }
-
-void	type_converter(t_params *fractol, int x, int y)
-{
-	if (fractol->option == mandelbrot)
-		complex_mandel(fractol, x, y);
-	else if (fractol->option == julia)
-		complex_julia(fractol, x, y);
-}
-
-void	pixel_manager(int x, int y, t_params *fractol)
-{
-	int		i;
-	int		color;
-	double	temp;
-	double	z_x_squared;
-	double	z_y_squared;
-
-	type_converter(fractol, x, y);
-	i = 0;
-	while (i < fractol->max_iter)
-	{
-		z_x_squared = fractol->z->x * fractol->z->x;
-		z_y_squared = fractol->z->y * fractol->z->y;
-		if (z_x_squared + z_y_squared > fractol->escape_value)
-		{
-			color = set_color(i, 0, fractol->max_iter);
-			mlx_put_pixel(fractol->img, x, y, color);
-			return ;
-		}
-		temp = z_x_squared - z_y_squared + fractol->c->x;
-		fractol->z->y = 2 * fractol->z->x * fractol->z->y + fractol->c->y;
-		fractol->z->x = temp;
-		i++;
-	}
-	mlx_put_pixel(fractol->img, x, y, BLACK);
-}
 
 // void	pixel_manager(int x, int y, t_params *fractol)
 // {

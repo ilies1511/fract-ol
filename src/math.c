@@ -6,7 +6,7 @@
 /*   By: iziane <iziane@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 01:28:15 by iziane            #+#    #+#             */
-/*   Updated: 2024/06/06 20:53:36 by iziane           ###   ########.fr       */
+/*   Updated: 2024/06/06 22:58:33 by iziane           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,6 @@ double	scale_map(double to_scale, t_params *f, double old_min, double old_max)
 	return ((f->x_max - f->x_min) * (to_scale - old_min)
 		/ (old_max - old_min) + f->x_min);
 }
-
-// double	scale_map(double unscaled_num, double new_min, double new_max, double old_min, double old_max)
-// {
-// 	return ((new_max - new_min) * (unscaled_num - old_min) / (old_max - old_min) + new_min);
-// }
 
 double	set_color(double to_scale, double old_min, double old_max)
 {
